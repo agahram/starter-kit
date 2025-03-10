@@ -14,6 +14,7 @@ import Loader from '../Loader'
 import { set } from 'nprogress'
 import Router, { useRouter } from 'next/router'
 import { auto } from '@popperjs/core'
+import { useConnection } from 'src/context/ConnectionsContext'
 
 // ** Data Import
 
@@ -41,6 +42,7 @@ export default function TopicConfigComp({ topicName }: Props) {
   const [query, setQuery] = useState('')
   const { getTopicConfig, getTopic, topic, rows, isLoading, loadingConfig, getTopicSize, topicSize, loadingTopicSize } =
     useTopic()
+
   const [currentData, setCurrentData] = useState([
     {
       name: '',

@@ -1,5 +1,7 @@
+import Link from 'next/link'
+
 const Home = () => {
-  return <>Home Page</>
+  return
 }
 
 export default Home

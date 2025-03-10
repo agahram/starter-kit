@@ -14,7 +14,7 @@ function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
 export default function CustomSeparator() {
   const router = useRouter()
   const breadcrumbs = [
-    <Link underline='hover' key='2' color='inherit' href='/catalog' onClick={() => router.push('/catalog')}>
+    <Link underline='hover' key='2' color='inherit' onClick={() => router.push('/catalog')}>
       Catalog
     </Link>,
     <Typography key='3' color='text.primary'>

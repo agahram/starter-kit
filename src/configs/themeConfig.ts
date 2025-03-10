@@ -20,6 +20,7 @@ import {
 } from 'src/@core/layouts/types'
 
 type ThemeConfig = {
+  homePageUrl: string
   skin: Skin
   mode: Mode
   appBar: AppBar
@@ -48,6 +49,7 @@ type ThemeConfig = {
 }
 
 const themeConfig: ThemeConfig = {
+  homePageUrl: '/connections',
   // ** Layout Configs
   templateName: 'Materialize' /* App Name */,
   layout: 'vertical' /* vertical | horizontal */,

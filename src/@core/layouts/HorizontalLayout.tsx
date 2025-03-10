@@ -17,9 +17,9 @@ import { LayoutProps } from 'src/@core/layouts/types'
 // ** Components
 import Customizer from 'src/@core/components/customizer'
 import Footer from './components/shared-components/footer'
-import Navigation from './components/horizontal/navigation'
+// import Navigation from './components/horizontal/navigation'
 import ScrollToTop from 'src/@core/components/scroll-to-top'
-import AppBarContent from './components/horizontal/app-bar-content'
+// import AppBarContent from './components/horizontal/app-bar-content'
 
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
@@ -130,14 +130,14 @@ const HorizontalLayout = (props: LayoutProps) => {
                 minHeight: theme => `${(theme.mixins.toolbar.minHeight as number) - 1}px !important`
               }}
             >
-              <AppBarContent
+              {/* <AppBarContent
                 {...props}
                 hidden={hidden}
                 settings={settings}
                 saveSettings={saveSettings}
                 appBarContent={horizontalLayoutProps?.appBar?.content}
                 appBarBranding={horizontalLayoutProps?.appBar?.branding}
-              />
+              /> */}
             </Toolbar>
           </Box>
 
@@ -153,14 +153,14 @@ const HorizontalLayout = (props: LayoutProps) => {
                     `${(theme.mixins.toolbar.minHeight as number) - (skin === 'bordered' ? 1 : 0)}px !important`
                 }}
               >
-                {(userNavMenuContent && userNavMenuContent(props)) || (
-                  <Navigation
-                    {...props}
-                    horizontalNavItems={
-                      (horizontalLayoutProps as NonNullable<LayoutProps['horizontalLayoutProps']>).navMenu?.navItems
-                    }
-                  />
-                )}
+                {/* {(userNavMenuContent && userNavMenuContent(props)) || (
+                  // <Navigation
+                  //   {...props}
+                  //   horizontalNavItems={
+                  //     (horizontalLayoutProps as NonNullable<LayoutProps['horizontalLayoutProps']>).navMenu?.navItems
+                  //   }
+                  // />
+                )} */}
               </Toolbar>
             </Box>
           )}

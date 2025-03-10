@@ -50,7 +50,7 @@ const Error500 = () => {
           <Typography variant='body2'>Oops, something went wrong!</Typography>
         </BoxWrapper>
         <Img alt='error-illustration' src='/images/pages/500.png' />
-        <Button href='/' component={Link} variant='contained' sx={{ px: 5.5 }}>
+        <Button href='/connections' component={Link} variant='contained' sx={{ px: 5.5 }}>
           Back to Home
         </Button>
       </Box>

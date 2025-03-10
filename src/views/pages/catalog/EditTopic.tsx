@@ -10,6 +10,7 @@ import { useState } from 'react'
 import Card from '@mui/material/Card'
 import { useTopic } from 'src/context/TopicsContext'
 import toast from 'react-hot-toast'
+import Icon from 'src/@core/components/icon'
 
 interface Props {
   name: string
@@ -55,19 +56,14 @@ export default function SimpleDialogDemo({ name }: Props) {
     <div>
       <Button
         variant='text'
-        sx={{ mr: 2, fontWeight: 401, fontSize: 13, marginLeft: 4, padding: 0.2 }}
+        sx={{ mr: 2, fontWeight: 401, fontSize: 15, marginLeft: 3, padding: 0.01, textTransform: 'capitalize' }}
         onClick={() => handleClickOpen()}
       >
-        <svg xmlns='http://www.w3.org/2000/svg' width='1.3em' height='3em' viewBox='0 0 24 24'>
-          <path
-            fill='currentColor'
-            d='M20.71 7.04c-.34.34-.67.67-.68 1c-.03.32.31.65.63.96c.48.5.95.95.93 1.44s-.53 1-1.04 1.5l-4.13 4.14L15 14.66l4.25-4.24l-.96-.96l-1.42 1.41l-3.75-3.75l3.84-3.83c.39-.39 1.04-.39 1.41 0l2.34 2.34c.39.37.39 1.02 0 1.41M3 17.25l9.56-9.57l3.75 3.75L6.75 21H3z'
-          ></path>
-        </svg>
+        <Icon icon='mdi:pen' />
         Edit
       </Button>
       <Dialog onClose={handleClose} open={open}>
-        <DialogTitle sx={{ justifyContent: 'center' }}>Create a new topic</DialogTitle>
+        <DialogTitle sx={{ justifyContent: 'center' }}>Edit a topic</DialogTitle>
         <List sx={{ pt: 0, width: 500, display: 'flex', marginTop: -5, justifyContent: 'center' }}>
           <Stack>
             <p>Edit existing topic in your environment.</p>
@@ -77,7 +73,6 @@ export default function SimpleDialogDemo({ name }: Props) {
                 <FormControl sx={{ width: '45ch' }}>
                   <OutlinedInput
                     placeholder='oldName'
-                    defaultValue={name}
                     value={name}
                     onChange={e => handleInputChange(e, 'oldName')}
                     disabled

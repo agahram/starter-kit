@@ -115,9 +115,7 @@ export default function NewConnection() {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                defaultValue='oliverQueen'
                 label='Connection Name'
-                placeholder='johnDoe'
                 value={newConnection.name}
                 onChange={e => handleInputChange(e, 'name')}
               />
@@ -131,9 +129,7 @@ export default function NewConnection() {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                defaultValue='oliverQueen'
-                label='Bootstrap Servers'
-                placeholder='johnDoe'
+                label='Bootstrap Server'
                 value={newConnection.boot_server}
                 onChange={e => handleInputChange(e, 'boot_server')}
               />

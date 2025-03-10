@@ -32,11 +32,11 @@ export default function TestConnection({ bootStrapServer }: Props) {
     setTestConnection(false)
     setShow(true)
     let data = await checkConnection(bootStrapServer)
-    console.log('DATA', data)
+    // console.log('DATA', data)
     if (data?.ok) {
       setTestConnection(data?.status === 200)
     }
-    console.log(testConnection)
+    // console.log(testConnection)
   }
   return (
     <>

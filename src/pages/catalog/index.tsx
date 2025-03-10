@@ -58,9 +58,6 @@ export default function index() {
   useEffect(() => {
     getTopics()
   }, [])
-  console.log(topics)
-
-  console.log('-----', topicSize)
 
   useEffect(() => {
     getTopicSize()
@@ -146,7 +143,6 @@ export default function index() {
         <ImportFile />
         <CreateTopic />
       </Stack>
-      {/* <SearchComp setQuery={setQuery} /> */}
       {isLoading ? (
         <Loader />
       ) : (
@@ -158,7 +154,6 @@ export default function index() {
               flexWrap: 'wrap',
               alignItems: 'stretch',
               justifyContent: 'start'
-              // p: theme => theme.spacing(4, 5, 4, 5)
             }}
           >
             <Box sx={{ padding: 3, marginBottom: -2 }}>
@@ -178,24 +173,24 @@ export default function index() {
                   width: 300,
                   '& .MuiInputBase-root > svg': {
                     mr: 2
-                  }
+                  },
+                  padding: 2
                 }}
-              />
-            </Box>
-            <Box sx={{ height: 500 }}>
-              <DataGrid
-                columns={columns}
-                rows={currentData}
-                initialState={{
-                  pagination: {
-                    paginationModel: { page: 0, pageSize: 50 }
-                  }
-                }}
-                pageSizeOptions={[5, 10, 20, 50, 100]}
-                getRowId={item => item.name}
               />
             </Box>
           </Box>
+          <DataGrid
+            autoHeight
+            columns={columns}
+            rows={currentData}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 50 }
+              }
+            }}
+            pageSizeOptions={[5, 10, 20, 50, 100]}
+            getRowId={item => item.name}
+          />
         </Card>
       )}
     </>

@@ -70,6 +70,7 @@ const TableServerSide = ({ topicName, searchClick, setSearchClick }: Props) => {
     browsers,
     consumeMessages,
     loading,
+    produceLoad,
     searchByPartitions,
     searchLoad,
     searchByKeys,
@@ -81,7 +82,7 @@ const TableServerSide = ({ topicName, searchClick, setSearchClick }: Props) => {
   } = useBrowser()
   const [currentTopics, setCurrentTopics] = useState<Browser[]>([])
   const [paginationModel, setPaginationModel] = useState({
-    pageSize: 7,
+    pageSize: 5,
     page: 0
   })
   const [searchValue, setSearchValue] = useState<string>('')
@@ -102,6 +103,7 @@ const TableServerSide = ({ topicName, searchClick, setSearchClick }: Props) => {
   useEffect(() => {
     if (topicName) {
       // consumeMessages(topicName)
+
       handlePagination(paginationModel, topicName)
       getRecordsCount(topicName)
     }
@@ -177,10 +179,11 @@ const TableServerSide = ({ topicName, searchClick, setSearchClick }: Props) => {
   const handleSearchChange = (event: SelectChangeEvent) => {
     setSearchChoice(event.target.value)
   }
+  console.log('produce load', produceLoad)
 
   return (
     <>
-      {loading || searchLoad ? (
+      {loading || searchLoad || produceLoad ? (
         <Box sx={{ width: '100%', height: 500 }}>
           <Loader />
         </Box>
@@ -276,7 +279,7 @@ const TableServerSide = ({ topicName, searchClick, setSearchClick }: Props) => {
               columns={columns}
               checkboxSelection
               // disableRowSelectionOnClick
-              pageSizeOptions={[7, 10, 25, 50, 100]}
+              pageSizeOptions={[5, 10, 25, 50, 100]}
               getRowId={item => item.id}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}

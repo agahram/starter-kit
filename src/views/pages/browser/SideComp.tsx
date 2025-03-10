@@ -10,11 +10,11 @@ import {
   Stack,
   Typography
 } from '@mui/material'
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import TopButtons from './TopButtons'
 import { Browser } from 'src/context/BrowserContext'
 import { GridRowId } from '@mui/x-data-grid'
-import { auto } from '@popperjs/core'
+import { auto, preventOverflow } from '@popperjs/core'
 
 interface Props {
   open: boolean
@@ -26,23 +26,20 @@ interface Props {
   setSelectionModel: Dispatch<SetStateAction<GridRowId[]>>
 }
 
-export default function SideComp({
-  open,
-  placement,
-  topicName,
-  currentTopics,
-  idArr,
-  setShowSide,
-  setSelectionModel
-}: Props) {
+export default function SideComp({ open, topicName, currentTopics, idArr, setShowSide, setSelectionModel }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+
   return (
-    <div>
+    <Box>
       <Popper
-        sx={{ zIndex: 1200, marginTop: 3, marginLeft: 3 }}
+        sx={{
+          zIndex: 1200,
+          marginTop: 3,
+          marginLeft: '71%'
+        }}
         open={open}
-        anchorEl={anchorEl}
-        placement={placement}
+        // anchorEl={anchorEl}
+        placement='right'
         transition
       >
         {({ TransitionProps }) => (
@@ -68,6 +65,6 @@ export default function SideComp({
           </Fade>
         )}
       </Popper>
-    </div>
+    </Box>
   )
 }

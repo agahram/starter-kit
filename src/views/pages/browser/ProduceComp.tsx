@@ -1,5 +1,6 @@
 import { Box, Button, Dialog, DialogTitle, FormControl, List, OutlinedInput, Stack } from '@mui/material'
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { Produce, useBrowser } from 'src/context/BrowserContext'
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
 }
 
 export default function ProduceComp({ topicName }: Props) {
-  const { produceMessage, consumeMessages, handlePagination } = useBrowser()
+  const { produceMessage, consumeMessages, handlePagination, getRecordsCount } = useBrowser()
   const [open, setOpen] = useState(false)
   const [newRecords, setNewRecords] = useState({
     key: '',
@@ -17,6 +18,9 @@ export default function ProduceComp({ topicName }: Props) {
     key: '',
     value: ''
   })
+  const [produceClick, setProduceClick] = useState(false)
+
+  const [isProduced, setIsProduced] = useState(false)
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -35,7 +39,7 @@ export default function ProduceComp({ topicName }: Props) {
   }
 
   const handleNewRecord = () => {
-    if (topicName) {
+    if (topicName && newRecords.key && newRecords.value && header) {
       produceMessage({
         topic: topicName,
         key: newRecords.key,
@@ -47,7 +51,6 @@ export default function ProduceComp({ topicName }: Props) {
           }
         ]
       })
-      handlePagination({ page: 0, pageSize: 7 }, topicName)
       setOpen(false)
       setNewRecords({
         key: '',
@@ -57,8 +60,11 @@ export default function ProduceComp({ topicName }: Props) {
         key: '',
         value: ''
       })
+    } else {
+      toast('All fields are required to fill')
     }
   }
+
   const handleRecordsChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, key: string) => {
     setNewRecords({
       ...newRecords,

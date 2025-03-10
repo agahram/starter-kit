@@ -97,7 +97,6 @@ const TopicProvider = ({ children }: Props) => {
   const [loadingTopicSize, setloadingTopicSize] = useState(false)
 
   const addTopic = async (topic: Topic) => {
-    // async function fetchConnections() {
     console.log('topic add', topic)
     try {
       setIsLoading(true)
@@ -109,7 +108,7 @@ const TopicProvider = ({ children }: Props) => {
         }
       })
         .then(response => {
-          console.log('RES', response)
+          // console.log('RES', response)
 
           return response.json()
         })
@@ -142,7 +141,7 @@ const TopicProvider = ({ children }: Props) => {
   }
 
   const getTopic = async (topicName: string) => {
-    console.log('topic name--', topicName)
+    // console.log('topic name--', topicName)
     try {
       setLoadingConfig(true)
       const response = await fetch(`http://localhost:5000/api/KafkaAdmin/get-topic?topicName=${topicName}`, {
@@ -159,22 +158,20 @@ const TopicProvider = ({ children }: Props) => {
   const deleteTopic = async (name: string) => {
     try {
       setIsLoading(true)
-      const response = await fetch(`http://localhost:5000/api/KafkaAdmin/delete-topic?topicName=${name}`, {
+      await fetch(`http://localhost:5000/api/KafkaAdmin/delete-topic?topicName=${name}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
         }
       })
-      let data = await response.json()
     } catch (err: any) {
-      console.log(err.message)
+      console.log('ERROR', err.message)
     }
     setTopics(await getTopics())
     setIsLoading(false)
   }
   const cloneTopics = async (oldName: string, newName: string) => {
-    // async function fetchConnections() {
-    console.log(oldName, newName)
+    // console.log(oldName, newName)
     try {
       setIsLoading(true)
       const response = await fetch(
@@ -202,7 +199,7 @@ const TopicProvider = ({ children }: Props) => {
   }
   const editTopics = async (oldName: string, newName: string) => {
     // async function fetchConnections() {
-    console.log(oldName, newName)
+    // console.log(oldName, newName)
     try {
       setIsLoading(true)
       const response = await fetch(
@@ -229,7 +226,7 @@ const TopicProvider = ({ children }: Props) => {
     }, 100)
   }
   const getTopicConfig = async (topicName: string) => {
-    console.log('topic name--', topicName)
+    // console.log('topic name--', topicName)
     try {
       setIsLoading(true)
       const response = await fetch(`http://localhost:5000/api/KafkaAdmin/get-topic-config?topicName=${topicName}`, {
@@ -244,7 +241,7 @@ const TopicProvider = ({ children }: Props) => {
   }
   const addTopics = async (arr: Topic[]) => {
     // async function fetchConnections() {
-    console.log('topics add', arr)
+    // console.log('topics add', arr)
     try {
       const response = await fetch('http://localhost:5000/api/KafkaAdmin/create-topics', {
         method: 'POST',

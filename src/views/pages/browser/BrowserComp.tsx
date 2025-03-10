@@ -1,11 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import TableComp from './TableComp'
-import { Box, Button, Card, CardContent, Grid, Stack, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  ButtonProps,
+  Card,
+  CardContent,
+  Divider,
+  Grid,
+  Stack,
+  TextField,
+  Typography,
+  styled
+} from '@mui/material'
 import { useBrowser } from 'src/context/BrowserContext'
 import Loader from '../catalog/Loader'
 import ProduceComp from './ProduceComp'
 import { v4 as uuidv4 } from 'uuid'
 import { auto } from '@popperjs/core'
+import Icon from 'src/@core/components/icon'
 
 export interface BrowserTopic {
   id: any
@@ -13,13 +26,15 @@ export interface BrowserTopic {
 }
 
 export default function BrowserComp(props: { topicName: string | string[] | undefined }) {
-  const { isLoading, consumeMessages, handlePagination } = useBrowser()
+  const { isLoading, consumeMessages, handlePagination, getRecordsCount } = useBrowser()
   const { browserTopics, getBrowserTopics } = useBrowser()
   const [currentTopics, setCurrentTopics] = useState<BrowserTopic[]>()
   const [name, setName] = useState('')
   const [isClicked, setIsClicked] = useState(false)
   const [fetchClick, setFetchClick] = useState(false)
   const [searchClick, setSearchClick] = useState<boolean>(false)
+  const [query, setQuery] = useState('')
+  const [style, setStyle] = useState({ hover: false })
 
   useEffect(() => {
     if (props.topicName) {
@@ -45,17 +60,33 @@ export default function BrowserComp(props: { topicName: string | string[] | unde
     }
   }, [browserTopics])
 
+  useEffect(() => {
+    let search_data = browserTopics.filter((browserTopic: any) => {
+      return browserTopic.name.toLowerCase().includes(query.toLowerCase())
+    })
+    let newData = search_data.map((obj: any) => {
+      return {
+        name: obj.name,
+        id: uuidv4()
+      }
+    })
+    setCurrentTopics(newData)
+  }, [query])
+
   function handleClick(name: string) {
+    setStyle({ hover: true })
     setIsClicked(true)
     setName(name)
   }
   function handleFetch() {
     setFetchClick(true)
   }
+
   useEffect(() => {
     if (name) {
       setSearchClick(false)
-      handlePagination({ page: 0, pageSize: 7 }, name)
+      handlePagination({ page: 0, pageSize: 5 }, name)
+      getRecordsCount(name)
       setFetchClick(false)
     }
   }, [fetchClick])
@@ -75,12 +106,41 @@ export default function BrowserComp(props: { topicName: string | string[] | unde
         </Button>
       </Box>
       {isLoading ? (
-        <Loader />
+        <Box sx={{ marginTop: 30 }}>
+          <Loader />
+        </Box>
       ) : (
         <Box sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-          <Card sx={{ width: auto, marginRight: 5, position: 'left', paddingRight: 20 }}>
+          <Card sx={{ width: auto, minWidth: 280, minHeight: 400, marginRight: 5, position: 'left', padding: 5 }}>
             <CardContent sx={{ pt: 8, display: 'flex', alignItems: 'left', flexDirection: 'column', paddingTop: -5 }}>
-              <Typography variant='h6'>Topics</Typography>
+              <Box sx={{ display: 'flex', alignItems: 'start', justifyContent: 'left', marginLeft: -4 }}>
+                <Typography variant='h6' sx={{ color: '#5C61E6', marginTop: -5 }}>
+                  Topics
+                </Typography>
+              </Box>
+              <TextField
+                size='small'
+                value={query}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setQuery(event.target.value)}
+                placeholder='Search'
+                InputProps={{
+                  startAdornment: (
+                    <Box sx={{ mr: 2, display: 'flex' }}>
+                      <Icon icon='mdi:magnify' />
+                    </Box>
+                  )
+                }}
+                sx={{
+                  width: 250,
+                  '& .MuiInputBase-root > svg': {
+                    mr: 2
+                  },
+                  marginTop: 2,
+                  marginBottom: -3,
+                  marginLeft: -6
+                }}
+              />
+
               <br />
               {currentTopics?.map(el => {
                 return (
@@ -89,7 +149,15 @@ export default function BrowserComp(props: { topicName: string | string[] | unde
                       variant='text'
                       color='secondary'
                       onClick={() => handleClick(el.name)}
-                      sx={{ textTransform: 'none', fontSize: '15px' }}
+                      sx={{
+                        textTransform: 'none',
+                        fontSize: '15px',
+                        marginLeft: -20,
+                        minWidth: 350
+                        // backgroundColor: style.hover ? '#6D788D' : '#FFF'
+                      }}
+                      // onMouseEnter={() => setStyle({ hover: true })}
+                      // onMouseLeave={() => setStyle({ hover: false })}
                     >
                       {el.name}
                     </Button>
@@ -101,21 +169,11 @@ export default function BrowserComp(props: { topicName: string | string[] | unde
           {isClicked || fetchClick ? (
             <TableComp topicName={name} searchClick={searchClick} setSearchClick={setSearchClick} />
           ) : (
-            // <Card>
-            //   <Box
-            //     sx={{
-            //       gap: 2,
-            //       display: 'flex',
-            //       flexWrap: 'wrap',
-            //       alignItems: 'stretch',
-            //       justifyContent: 'start',
-            //       p: theme => theme.spacing(4, 5, 4, 5)
-            //     }}
-            //   ></Box>
-            // </Card>
-            // <Card ></Card>
-            <Box sx={{ width: '100%', height: 500 }}></Box>
-            // <></>
+            <Box sx={{ width: '100%', height: 500 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 40 }}>
+                <h2>Select a data stream or view from the left</h2>
+              </Box>
+            </Box>
           )}
         </Box>
       )}

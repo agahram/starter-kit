@@ -9,13 +9,12 @@ interface Props {
 }
 
 export default function TopicConfig({ name }: Props) {
-  //   function handleTopicDetails() {
-  //     router.push('/catalog/configuration')
-  //     getTopicConfig(name)
-  //   }
-
+  const router = useRouter()
   return (
-    <a href={`/catalog/configuration/${name}`} style={{ color: '#5C61E6', fontWeight: 500 }}>
+    <a
+      style={{ color: '#5C61E6', fontWeight: 500, cursor: 'default' }}
+      onClick={() => router.push(`/catalog/configuration/${name}`)}
+    >
       {name}
     </a>
   )

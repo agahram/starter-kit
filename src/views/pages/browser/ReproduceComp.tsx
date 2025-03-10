@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function ReproduceComp({ topicName, initialKey, initialValue }: Props) {
-  const { produceMessage, consumeMessages, handlePagination } = useBrowser()
+  const { produceMessage, consumeMessages, handlePagination, getRecordsCount } = useBrowser()
   const [open, setOpen] = useState(false)
   const [newRecords, setNewRecords] = useState({ key: '', value: '' })
 
@@ -18,6 +18,9 @@ export default function ReproduceComp({ topicName, initialKey, initialValue }: P
     key: '',
     value: ''
   })
+  const [reProduceClick, setReProduceClick] = useState(false)
+
+  const [isProduced, setIsProduced] = useState(false)
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -38,6 +41,34 @@ export default function ReproduceComp({ topicName, initialKey, initialValue }: P
     })
   }
 
+  // const handleNewRecord = () => {
+  //   setReProduceClick(true)
+  // }
+  // useEffect(() => {
+  //   if (topicName && newRecords.key && newRecords.value && header) {
+  //     produceMessage({
+  //       topic: topicName,
+  //       key: newRecords.key,
+  //       value: newRecords.value,
+  //       headers: [
+  //         {
+  //           key: header.key,
+  //           value: header.value
+  //         }
+  //       ]
+  //     })
+  //     setOpen(false)
+  //     setReProduceClick(false)
+  //   }
+  // }, [reProduceClick])
+
+  // useEffect(() => {
+  //   if (topicName) {
+  //     getRecordsCount(topicName)
+  //     setIsProduced(false)
+  //   }
+  // }, [isProduced])
+
   const handleNewRecord = () => {
     if (topicName) {
       produceMessage({
@@ -51,7 +82,6 @@ export default function ReproduceComp({ topicName, initialKey, initialValue }: P
           }
         ]
       })
-      handlePagination({ page: 0, pageSize: 7 }, topicName)
       setOpen(false)
       setNewRecords({
         key: '',

@@ -29,8 +29,8 @@ const Transition = forwardRef(function Transition(
   return <Fade ref={ref} {...props} />
 })
 
-export default function ConfigButton({ details, name, id }: Props) {
-  const { editConnection } = useConnection()
+export default function DuplicateConnection({ details, name, id }: Props) {
+  const { editConnection, addConnections } = useConnection()
   const [show, setShow] = useState<boolean>(false)
   const [updateConnection, setUpdateConnection] = useState({
     name: name,
@@ -44,6 +44,10 @@ export default function ConfigButton({ details, name, id }: Props) {
 
   function handleUpdate() {
     if (updateConnection) {
+      addConnections({
+        connectionName: name,
+        bootStrapServer: details
+      })
       editConnection({
         connectionName: updateConnection.name,
         bootStrapServer: updateConnection.boot_server,
@@ -62,11 +66,11 @@ export default function ConfigButton({ details, name, id }: Props) {
     <>
       <Button
         variant='text'
+        sx={{ mr: 2, fontWeight: 401, fontSize: 14, textTransform: 'capitalize' }}
         onClick={() => handleClick()}
-        sx={{ mr: 2, fontWeight: 401, fontSize: 14, textTransform: 'capitalize', marginBottom: 2 }}
       >
-        <Icon icon='material-symbols:settings' />
-        Configuration
+        <Icon icon='ph:copy' fontSize={23} />
+        Duplicate
       </Button>
       <Dialog
         fullWidth

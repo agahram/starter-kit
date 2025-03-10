@@ -1,13 +1,24 @@
-import { Box, Button, Card, Stack, Typography } from '@mui/material'
+import { Box, Button, Card, Stack, Typography, styled, useMediaQuery } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
 import CustomChip from 'src/@core/components/mui/chip'
 import { Consumer, useConsumer } from 'src/context/ConsumersContext'
-import Chips from './Chips'
 import { log } from 'console'
-import { color } from '@mui/system'
+import { color, useTheme } from '@mui/system'
 import SearchComp from '../catalog/SearchComp'
 import Loader from '../catalog/Loader'
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip'
+
+const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 12
+  }
+}))
 
 const columns: GridColDef[] = [
   {
@@ -53,7 +64,13 @@ const columns: GridColDef[] = [
     renderCell: ({ row }: any) => {
       if (row.assignedTopics.length !== 0) {
         for (let i = 0; i < row.assignedTopics.length; i++) {
-          return <CustomChip label={row.assignedTopics} skin='light' color='primary' />
+          return (
+            <LightTooltip title={row.assignedTopics}>
+              <div>
+                <CustomChip label={row.assignedTopics} skin='light' color='primary' />
+              </div>
+            </LightTooltip>
+          )
         }
       } else {
         return <CustomChip label='none' skin='light' color='primary' />
@@ -72,6 +89,11 @@ export default function ConsumersComp() {
     rebalancing: 0,
     dead: 0
   })
+
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const isFull = useMediaQuery('(max-width:1100px)')
+
   const [totalLag, setTotalLag] = useState(0)
   useEffect(() => {
     getConsumers()
@@ -144,7 +166,7 @@ export default function ConsumersComp() {
       setCurrentData(newData)
     } else {
       let show_data = consumers.filter((consumer: any) => consumer.state === consumerState)
-      console.log(show_data)
+      // console.log(show_data)
       let newData = show_data.map((obj: any) => {
         return {
           group: obj.group,
@@ -185,13 +207,14 @@ export default function ConsumersComp() {
               </Button>
             </Box>
           </Card>
-          <Stack direction='row' spacing={7} sx={{ marginBottom: 2, display: 'flex' }}>
-            <Card sx={{ width: 300, padding: 3 }}>
+          <Box sx={{ marginBottom: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Card sx={{ width: isFull ? 200 : 260, padding: 3 }}>
               <Box
                 sx={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  flexDirection: isMobile ? 'column' : 'row'
                 }}
               >
                 <p style={{ color: '#787eff', fontWeight: 600 }}>Stable</p>
@@ -201,12 +224,13 @@ export default function ConsumersComp() {
               </Box>
               <CustomChip label={state.stable} skin='light' color='success' />
             </Card>
-            <Card sx={{ width: 300, padding: 3 }}>
+            <Card sx={{ width: isFull ? 200 : 260, padding: 3 }}>
               <Box
                 sx={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  flexDirection: isMobile ? 'column' : 'row'
                 }}
               >
                 <p style={{ color: '#787eff', fontWeight: 600 }}>Empty</p>
@@ -216,12 +240,13 @@ export default function ConsumersComp() {
               </Box>
               <CustomChip label={state.empty} skin='light' color='warning' />
             </Card>
-            <Card sx={{ width: 300, padding: 3 }}>
+            <Card sx={{ width: isFull ? 200 : 260, padding: 3 }}>
               <Box
                 sx={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  flexDirection: isMobile ? 'column' : 'row'
                 }}
               >
                 <p style={{ color: '#787eff', fontWeight: 600 }}>Rebalancing</p>
@@ -236,12 +261,13 @@ export default function ConsumersComp() {
               </Box>
               <CustomChip label={state.rebalancing} skin='light' color='info' />
             </Card>
-            <Card sx={{ width: 300, padding: 3 }}>
+            <Card sx={{ width: isFull ? 200 : 260, padding: 3 }}>
               <Box
                 sx={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  flexDirection: isMobile ? 'column' : 'row'
                 }}
               >
                 <p style={{ color: '#787eff', fontWeight: 600 }}>Dead</p>
@@ -251,11 +277,11 @@ export default function ConsumersComp() {
               </Box>
               <CustomChip label={state.dead} skin='light' color='error' />
             </Card>
-            <Card sx={{ width: 300, padding: 3 }}>
+            <Card sx={{ width: isFull ? 200 : 260, padding: 3 }}>
               <p style={{ color: '#787eff', fontWeight: 600 }}>Total lag</p>
               <CustomChip label={totalLag} skin='light' color='warning' />
             </Card>
-          </Stack>
+          </Box>
           <Card>
             <SearchComp setQuery={setQuery} />
             <Box sx={{ height: 700 }}>

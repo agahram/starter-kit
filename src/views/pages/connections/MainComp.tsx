@@ -9,16 +9,23 @@ import ConnectionsComponent from 'src/views/pages/connections/ConnectionsCompone
 import NewConnectionButton from 'src/views/pages/connections/NewConnectionButton'
 import { useEffect, useState } from 'react'
 import { useConnection } from 'src/context/ConnectionsContext'
-import MainComp from 'src/views/pages/connections/MainComp'
 
 const DialogExamples = () => {
-  const { connections, getConnections } = useConnection()
-  useEffect(() => {
-    getConnections()
-  }, [])
+  const { connections } = useConnection()
   return (
     <>
-      <MainComp />
+      <NewConnectionButton />
+      <Grid container spacing={6} className='match-height'>
+        {connections?.map(connection => (
+          <Grid item md={3.2} sm={6} xs={12} key={connection.connectionId}>
+            <ConnectionsComponent
+              name={connection.connectionName}
+              details={connection.bootStrapServer}
+              id={connection.connectionId!}
+            />
+          </Grid>
+        ))}
+      </Grid>
     </>
   )
 }
